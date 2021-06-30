@@ -1,4 +1,5 @@
 ﻿using GourmetGame.Controllers;
+using GourmetGame.Model.Enumeration;
 using GourmetGame.View.Components;
 using System;
 using System.Windows.Forms;
@@ -22,48 +23,56 @@ namespace GourmetGame
             do
             {
                 var value = gameController.GetValue();
-                var confirmResult = MessageBox.Show($"O prato que você pensou é {value}", "", MessageBoxButtons.YesNo);
+                var confirmResult = MessageBox.Show($"O prato que você pensou é {value}", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 var answer = confirmResult == DialogResult.Yes;
                 var status = gameController.AnswerQuestion(answer);
-
-                if (status == Model.Enumeration.GameStatus.Winner)
-                {
-                    MessageBox.Show($"Acertei de Novo!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    continueGame = EndGame();
-                }
-                else if (status == Model.Enumeration.GameStatus.Loser)
-                {
-                    string meal = "null";
-                    string type = "null";
-
-                    using (DialogueMessage form = new DialogueMessage("Qual prato você pensou ?", "Desisto"))
-                    {
-                        var result = form.ShowDialog();
-
-                        if (result == DialogResult.OK)
-                        {
-                            meal = form.Result;
-                            form.Close();
-                        }
-                    }
-
-                    var question = gameController.GetQuestionDescription();
-
-                    using (DialogueMessage form = new DialogueMessage($"{meal} é ________ mas {question} não.", "Complete"))
-                    {
-                        var result = form.ShowDialog();
-
-                        if (result == DialogResult.OK)
-                        {
-                            type = form.Result;
-                        }
-                    }
-
-                    gameController.Insert(meal, type);
-                    continueGame = EndGame();
-                }
+                continueGame = GameAction(continueGame, status);
 
             } while (continueGame);
+        }
+
+        private bool GameAction(bool continueGame, GameStatus status)
+        {
+            switch (status)
+            {
+                case GameStatus.Winner:
+                    MessageBox.Show($"Acertei de Novo!", "Jogo Gourmet", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    continueGame = EndGame();
+                    break;
+                case GameStatus.Loser:
+                    {
+                        string meal;
+                        string type;
+
+                        meal = OpenDialogueMessage("Qual prato você pensou ?", "Desisto");
+                        var question = gameController.GetQuestionDescription();               
+                        type = OpenDialogueMessage($"{meal} é ________ mas {question} não.", "Complete");
+
+                        gameController.Insert(meal, type);
+                        continueGame = EndGame();
+                        break;
+                    }
+            }
+
+            return continueGame;
+        }
+
+        private string OpenDialogueMessage(string message, string formMessage)
+        {
+            string inputResult = "";
+
+            using (DialogueMessage form = new(message, formMessage))
+            {
+                var result = form.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    inputResult = form.Result;
+                    form.Close();
+                }
+            }
+
+            return inputResult;
         }
 
         private bool EndGame()

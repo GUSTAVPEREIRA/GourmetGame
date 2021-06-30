@@ -1,5 +1,4 @@
-﻿
-namespace GourmetGame.View.Components
+﻿namespace GourmetGame.View.Components
 {
     partial class DialogueMessage
     {
@@ -32,9 +31,11 @@ namespace GourmetGame.View.Components
         private void InitializeComponent()
         {
             this.txtInput = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblMessage = new System.Windows.Forms.Label();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // txtInput
@@ -46,12 +47,12 @@ namespace GourmetGame.View.Components
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(64, 19);
-            this.label1.Name = "label1";
-            this.label1.Text = Message;
-            this.label1.Size = new System.Drawing.Size(0, 15);
-            this.label1.TabIndex = 1;
+            this.lblMessage.AutoSize = true;
+            this.lblMessage.Location = new System.Drawing.Point(64, 19);
+            this.lblMessage.Name = "label1";
+            this.lblMessage.Text = Message;
+            this.lblMessage.Size = new System.Drawing.Size(0, 15);
+            this.lblMessage.TabIndex = 1;
             // 
             // btnOk
             // 
@@ -73,30 +74,41 @@ namespace GourmetGame.View.Components
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::GourmetGame.Properties.Resources.messagebox_question;
+            this.pictureBox1.Location = new System.Drawing.Point(11, 21);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(33, 39);
+            this.pictureBox1.TabIndex = 4;
+            this.pictureBox1.TabStop = false;
+            // 
             // DialogueMessage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(330, 99);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblMessage);
             this.Controls.Add(this.txtInput);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "DialogueMessage";
             this.Text = FormName;
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-            this.CenterToScreen();
-
+            this.CenterToParent();
         }
 
         #endregion
 
         private System.Windows.Forms.TextBox txtInput;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblMessage;
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
